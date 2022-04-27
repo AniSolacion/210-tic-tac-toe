@@ -12,21 +12,14 @@ namespace cse210_tic_tac_toe
     {
         static void Main(string[] args)
         {
-            List<string> board = new List<string>();
-            board.Add("1");
-            board.Add("2");
-            board.Add("3");
-            board.Add("4");
-            board.Add("5");
-            board.Add("6");
-            board.Add("7");
-            board.Add("8");
-            board.Add("9");
-            
-            Turn(board);
+            List<string> board = new List<string>()
+            {
+                "1", "2", "3", "4", "5", "6", "7", "8", "9"
+            };
+            gameLoop(board);
         }
 
-        static void Turn(List<string> board)
+        static void gameLoop(List<string> board)
         {
             string done = "false";
             int turns = 1;
@@ -46,23 +39,25 @@ namespace cse210_tic_tac_toe
                     player = "o";
                 }
 
-                Console.WriteLine($"{player}'s turn to choose a square (1-9): ");
+                Console.Write($"\n{player}'s turn to choose a square (1-9): ");
                 string selection = Console.ReadLine();
                 int square = int.Parse(selection);
+                Console.WriteLine("");
+
+                // Replace value in the board.
                 board[square - 1] = player;
 
                 // check for a win.
                 if (turns >= 5)
                 {
-                    // Add win logic.
+                    done = checkForWin(board, player);
                 }
-
                 // Once the board is full, end the game.
-                if (turns == 9)
+                else if (turns == 9)
                 {
                     done = "true";
                     Display(board);
-                    Console.WriteLine("Tied game. Thanks for playing!");
+                    Console.WriteLine("Tied game. Thanks for playing!\n");
                 }
 
                 turns ++;
@@ -76,6 +71,24 @@ namespace cse210_tic_tac_toe
             Console.WriteLine($"{board[3]} | {board[4]} | {board[5]}");
             Console.WriteLine("--+---+--");
             Console.WriteLine($"{board[6]} | {board[7]} | {board[8]}");
+        }
+
+        static string checkForWin(List<string> board, string player)
+        {
+            if (board[0] == player && board[1] == player && board[2] == player ||
+                board[3] == player && board[4] == player && board[5] == player ||
+                board[6] == player && board[7] == player && board[8] == player ||
+                board[0] == player && board[3] == player && board[6] == player ||
+                board[1] == player && board[4] == player && board[7] == player ||
+                board[2] == player && board[5] == player && board[8] == player ||
+                board[0] == player && board[4] == player && board[8] == player ||
+                board[2] == player && board[4] == player && board[6] == player)
+                {
+                    Display(board);
+                    Console.WriteLine($"{player} wins! Thanks for playing!\n");
+                    return "true";
+                }
+            return "false";
         }
     }
 }
