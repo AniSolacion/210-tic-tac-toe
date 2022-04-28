@@ -44,7 +44,14 @@ namespace cse210_tic_tac_toe
                 int square = int.Parse(selection);
                 Console.WriteLine("");
 
-                // Replace value in the board.
+                // Check if a square is already filled.
+                while (board[square - 1] == "x" || board[square - 1] == "o")
+                {
+                    Console.Write("Please input a square that hasn't been filled: ");
+                    selection = Console.ReadLine();
+                    square = int.Parse(selection);
+                }
+
                 board[square - 1] = player;
 
                 // check for a win.
